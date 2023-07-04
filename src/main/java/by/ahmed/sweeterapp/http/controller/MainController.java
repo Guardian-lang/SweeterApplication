@@ -4,6 +4,7 @@ import by.ahmed.sweeterapp.entity.Message;
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class MainController {
     }
 
     @PostMapping("/main/add")
-    public String addMessage(@SessionAttribute(required = false, name = "user") User user,
+    public String addMessage(@AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag,
             Model model) {

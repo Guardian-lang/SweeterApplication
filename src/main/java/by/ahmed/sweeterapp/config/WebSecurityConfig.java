@@ -20,15 +20,15 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/registration").permitAll()
-                        .requestMatchers("/main", "/", "/profile").hasAuthority(USER.getAuthority())
+                        .requestMatchers("/", "/login", "/registration").permitAll()
+                        .requestMatchers("/main", "/profile").hasAuthority(USER.getAuthority())
                         .requestMatchers("/users", "/users/*").hasAnyAuthority(ADMIN.getAuthority())
                         .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/main")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
