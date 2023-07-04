@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Editor</title>
+</head>
+<body>
+<form th:action="@{/users/{userId}/save(userId=${user.id})}" method="post">
+    <input type="text" th:value="${user.username}" name="username"/>
+    <input type="email" th:value="${user.email}" name="email"/>
+  <div th:each="role : ${roles}">
+      <div th:each="userRole : ${user.getRoles()}">
+        <label><input type="checkbox" th:name="${role}" th:text="${role}"/>
+            <p th:if="userRole==${role}" th:text="checked"></p>
+        </label>
+      </div>
+  </div>
+    <input type="hidden" th:value="${user.id}" name="userID"/>
+    <input type="hidden" th:value="${_csrf.token}" name="_csrf"/>
+    <button type="submit">Изменить</button>
+</form>
+</body>
+</html>
