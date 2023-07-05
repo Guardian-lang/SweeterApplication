@@ -27,10 +27,10 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String validate(Model model, String name,
+    public String validate(Model model, String username,
                            String password) {
         try {
-            var user = userService.login(name, password);
+            var user = userService.login(username, password);
             return user.map(userData -> onLoginSuccess(model, userData)).orElse(loginFail());
         } catch (ValidationException e) {
             model.addAttribute("errors", e.getErrors());
