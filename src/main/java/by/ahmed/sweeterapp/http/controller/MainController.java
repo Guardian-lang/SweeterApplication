@@ -3,8 +3,10 @@ package by.ahmed.sweeterapp.http.controller;
 import by.ahmed.sweeterapp.entity.Message;
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.repository.MessageRepository;
+import by.ahmed.sweeterapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 public class MainController {
 
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -40,11 +43,12 @@ public class MainController {
     }
 
     @PostMapping("/main/add")
-    public String addMessage(@AuthenticationPrincipal User user,
+    public String addMessage(@AuthenticationPrincipal UserDetails userDetails,
             @RequestParam String text,
             @RequestParam String tag,
             Model model) {
-        var message = new Message(text, tag, LocalDate.now(), user);
+        var message = new Message(text, tag, LocalDate.now(), userRepository
+                .findByUsername(userDetails.getUsername()).orElseThrow());
         messageRepository.save(message);
         return "main";
     }
