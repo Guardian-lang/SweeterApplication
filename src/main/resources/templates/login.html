@@ -6,7 +6,7 @@
   <title>Sign In</title>
 </head>
 <body>
-<div th:insert="fragments :: navbar"></div>
+<div th:insert="fragments :: header"></div>
 <div class="container mt-5">
 <div th:if="${param.error}" style="color: red">
   Invalid username and password.
@@ -19,7 +19,6 @@
   <div><label> Password: <input type="password" name="password"/> </label></div>
   <div><input type="submit" value="Sign In"/></div>
 </form>
-<a th:href="@{/registration}">Sign Up</a>
 <div th:insert="fragments :: script"></div>
 </div>
 </body>

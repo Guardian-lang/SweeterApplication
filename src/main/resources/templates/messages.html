@@ -10,7 +10,7 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
 <div>
-    <form th:action="@{/main/add}" method="post">
+    <form th:action="@{/messages/add}" method="post">
         <label>
             <input type="textarea" name="text" placeholder="Введите сообщение"/>
         </label>
@@ -21,7 +21,7 @@
         <button type="submit">Отправить</button>
     </form>
 </div>
-<form th:action="@{/main}" method="get">
+<form th:action="@{/messages}" method="get">
     <input type="text" name="filter" th:value="${filter}"/>
     <button type="submit">Найти</button>
 </form>

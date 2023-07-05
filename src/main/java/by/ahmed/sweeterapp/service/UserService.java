@@ -2,13 +2,16 @@ package by.ahmed.sweeterapp.service;
 
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.repository.UserRepository;
+import by.ahmed.sweeterapp.utils.CustomMultipartFile;
 import by.ahmed.sweeterapp.validator.LoginUserValidator;
 import by.ahmed.sweeterapp.validator.ValidationException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -19,6 +22,7 @@ public class UserService implements UserDetailsService
 
     private final UserRepository userRepository;
     private final LoginUserValidator loginUserValidator;
+    private final ImageService imageService;
 
     public Optional<User> login(String username, String password) {
         Optional<User> userDto = userRepository.findAll()
@@ -43,5 +47,12 @@ public class UserService implements UserDetailsService
                         user.getRoles()
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
+    }
+
+    @SneakyThrows
+    public void uploadImage(CustomMultipartFile image) {
+        if(!image.isEmpty()) {
+            imageService.upload(image.getOriginalFilename(), image.getInputStream());
+        }
     }
 }

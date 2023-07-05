@@ -9,8 +9,15 @@
 <body>
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
-<form th:action="@{/users/{userId}/save(userId=${user.id})}" method="post">
+<form th:action="@{/profile/edit}" method="post">
     <input type="text" th:value="${user.username}" name="username"/>
+    <input type="text" th:value="${user.firstname}" name="firstname"/>
+    <input type="text" th:value="${user.lastname}" name="lastname"/>
+    <input type="date" th:value="${user.birth_date}" name="birth_date"/>
+    <div th:each="gender : ${genders}">
+        <input th:id="${gender}" type="radio" name="gender" th:value="${gender}" th:checked="${gender == user.gender}">
+        <label th:for="${gender}" th:text="${gender}">Gender</label>
+    </div>
     <input type="email" th:value="${user.email}" name="email"/>
   <div th:each="role : ${roles}">
       <div th:each="userRole : ${user.getRoles()}">
@@ -19,6 +26,11 @@
         </label>
       </div>
   </div>
+<!--    <div>-->
+<!--        <label for="avatar">Avatar:-->
+<!--            <input id="avatar" type="file" name="avatar">-->
+<!--        </label><br>-->
+<!--    </div>-->
     <input type="hidden" th:value="${user.id}" name="userID"/>
     <input type="hidden" th:value="${_csrf.token}" name="_csrf"/>
     <button type="submit">Изменить</button>
