@@ -27,6 +27,8 @@ public class MessageController {
     public String main(@AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false,
             name = "filter", defaultValue = "") String filter, Model model) {
+        User user = userRepository.findByUsername(userDetails.getUsername()).get();
+        model.addAttribute("userId", user.getId());
         model.addAttribute("users", userRepository.findAll());
         List<Message> messages;
         if (filter != null && !filter.isEmpty()) {
@@ -41,9 +43,9 @@ public class MessageController {
     @GetMapping("/{id}/send")
     public String sendMessageForm(@AuthenticationPrincipal UserDetails userDetails,
                                   @PathVariable("id") Long id,
-                                  @SessionAttribute(name = "receiver", required = false) User receiver,
                                   Model model) {
-        receiver = userRepository.findById(id).orElseThrow();
+        User receiver = userRepository.findById(id).orElseThrow();
+        model.addAttribute("receiver", receiver);
         model.addAttribute("messages", messageRepository
                 .findAllByReceiverUsernameAndSenderUsername(receiver.getUsername(), userDetails.getUsername()));
         return "send";
@@ -53,11 +55,10 @@ public class MessageController {
     public String sendMessage(@AuthenticationPrincipal UserDetails userDetails,
                               @PathVariable("id") Long id,
                               @RequestParam("text") String text,
-                              @SessionAttribute(name = "receiver", required = false) User receiver,
                               Model model) {
-        model.addAttribute("receiver", receiver);
         var answer = new Message(text, LocalDate.now(), userRepository
-                .findByUsername(userDetails.getUsername()).get(), receiver);
+                .findByUsername(userDetails.getUsername()).get(), userRepository
+                .findById(id).orElseThrow());
         messageRepository.save(answer);
         model.addAttribute("answer", answer);
         return "send";

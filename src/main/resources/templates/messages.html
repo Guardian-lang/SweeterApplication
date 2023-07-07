@@ -32,7 +32,7 @@
     <p> </p>
     <h3>Написать</h3>
     <div th:each="user : ${users}">
-        <a th:href="@{/messages/{id}/send(id=${user.id})}" th:text="${user.username}"/>
+        <a th:href="@{/messages/{id}/send(id=${user.id})}" th:if="${user.id == userId}" th:text="${user.username}"/>
     </div>
 <div th:insert="fragments :: script"></div>
 </div>
