@@ -16,20 +16,23 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String text;
-    private String tag;
     private LocalDate date;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
-    private User author;
+    @JoinColumn(name = "sender_id")
+    private User sender;
 
-    public Message(String text, String tag, LocalDate date, User author) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
+    public Message(String text, LocalDate date, User sender, User receiver) {
         this.text = text;
-        this.tag = tag;
         this.date = date;
-        this.author = author;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 
-    public String getAuthorName() {
-        return author != null ? author.getUsername() : "<none>";
+    public String getSenderName() {
+        return sender != null ? sender.getUsername() : "<none>";
     }
 }

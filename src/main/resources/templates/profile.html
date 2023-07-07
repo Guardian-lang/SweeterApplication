@@ -8,6 +8,10 @@
 <body>
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
+    <div th:if="${profile.avatar}">
+        <img th:src="@{/avatar}" class="rounded-circle" style="width: 150px;"
+             alt="Avatar" />
+    </div>
     <form th:action="@{/profile}" method="get">
         <strong th:text="${profile.username}">Username</strong>
         <h2 th:text="${profile.firstname}">First Name</h2>

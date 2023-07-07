@@ -21,14 +21,15 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/registration").permitAll()
-                        .requestMatchers("/messages", "/profile").hasAuthority(USER.getAuthority())
+                        .requestMatchers("/messages", "/messages/*", "/profile", "/profile/*", "/avatar")
+                        .hasAuthority(USER.getAuthority())
                         .requestMatchers("/users", "/users/*").hasAnyAuthority(ADMIN.getAuthority())
                         .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(login -> login
                         .loginPage("/login")
-                        .defaultSuccessUrl("/messages")
+                        .defaultSuccessUrl("/profile")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

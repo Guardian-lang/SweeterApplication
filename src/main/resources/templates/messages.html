@@ -9,18 +9,6 @@
 <body>
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
-<div>
-    <form th:action="@{/messages/add}" method="post">
-        <label>
-            <input type="textarea" name="text" placeholder="Введите сообщение"/>
-        </label>
-        <label>
-            <input type="text" name="tag" placeholder="Тэг"/>
-        </label>
-        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-        <button type="submit">Отправить</button>
-    </form>
-</div>
 <form th:action="@{/messages}" method="get">
     <input type="text" name="filter" th:value="${filter}"/>
     <button type="submit">Найти</button>
@@ -28,18 +16,24 @@
 <h3>Список сообщений:</h3>
 <div th:each="message : ${messages}">
     <span th:text="${message.text}">Text</span>
-    <i th:text="${message.tag}">Tag</i>
     <p th:text="${message.date}">Date</p>
-    <strong th:text="${message.authorName}">Author Name</strong>
-    <form th:action="@{/main/{id}/delete(id=${message.id})}" method="post">
-        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-        <button type="submit">Удалить</button>
-    </form>
+    <strong th:text="${message.senderName}">Sender Name</strong>
+<!--    <form th:action="@{/main/{id}/delete(id=${message.id})}" method="post">-->
+<!--        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>-->
+<!--        <button type="submit">Удалить</button>-->
+<!--    </form>-->
 </div>
-<form th:action="@{/logout}" method="post">
-    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-    <input type="submit" value="Выйти"/>
-</form>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>-->
+<!--    <input type="submit" value="Выйти"/>-->
+<!--</form>-->
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <h3>Написать</h3>
+    <div th:each="user : ${users}">
+        <a th:href="@{/messages/{id}/send(id=${user.id})}" th:text="${user.username}"/>
+    </div>
 <div th:insert="fragments :: script"></div>
 </div>
 </body>

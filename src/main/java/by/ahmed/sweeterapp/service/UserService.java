@@ -2,7 +2,6 @@ package by.ahmed.sweeterapp.service;
 
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.repository.UserRepository;
-import by.ahmed.sweeterapp.utils.CustomMultipartFile;
 import by.ahmed.sweeterapp.validator.LoginUserValidator;
 import by.ahmed.sweeterapp.validator.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
@@ -50,9 +50,16 @@ public class UserService implements UserDetailsService
     }
 
     @SneakyThrows
-    public void uploadImage(CustomMultipartFile image) {
+    public void uploadImage(MultipartFile image) {
         if(!image.isEmpty()) {
             imageService.upload(image.getOriginalFilename(), image.getInputStream());
         }
+    }
+
+    public Optional<byte[]> findAvatar(Long id) {
+        return userRepository.findById(id)
+                .map(User::getAvatar)
+                .filter(StringUtils::hasText)
+                .flatMap(imageService::get);
     }
 }

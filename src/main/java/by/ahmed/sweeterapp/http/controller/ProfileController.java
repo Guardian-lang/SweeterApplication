@@ -1,19 +1,19 @@
 package by.ahmed.sweeterapp.http.controller;
 
-import by.ahmed.sweeterapp.dto.ProfileDto;
 import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.mapper.ProfileMapper;
 import by.ahmed.sweeterapp.repository.UserRepository;
 import by.ahmed.sweeterapp.service.UserService;
-import by.ahmed.sweeterapp.utils.CustomMultipartFile;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -26,8 +26,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProfileController {
 
+//    @Value("${app.image.bucket}")
+//    private String bucket;
     private final UserRepository userRepository;
-//    private final UserService userService;
+    private final UserService userService;
     private final ProfileMapper profileMapper;
 
     @GetMapping
@@ -56,7 +58,7 @@ public class ProfileController {
                            @RequestParam String lastname,
                            @RequestParam LocalDate birth_date,
                            @RequestParam Gender gender,
-                           //@RequestParam CustomMultipartFile avatar,
+                           @RequestParam MultipartFile avatar,
                            Model model) {
         model.addAttribute("genders", Gender.values());
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
@@ -68,9 +70,9 @@ public class ProfileController {
         user.setGender(gender);
         user.setEmail(email);
 
-//        userService.uploadImage(avatar);
-//        user.setAvatar("C://Users//Ahmed//IdeaProjects//sweeter-app//src//main//resources//images//"
-//                + avatar.getOriginalFilename());
+        userService.uploadImage(avatar);
+        user.setAvatar(avatar.getOriginalFilename());
+        userRepository.saveAndFlush(user);
 
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
