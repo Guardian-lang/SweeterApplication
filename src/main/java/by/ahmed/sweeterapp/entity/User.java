@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -29,16 +29,17 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private boolean active;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
     @OneToMany(mappedBy = "sender")
     private List<Message> messages;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        List<Role> roles = new ArrayList<>();
+        roles.add(this.role);
+        return roles;
     }
 
     @Override

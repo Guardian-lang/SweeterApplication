@@ -22,7 +22,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/registration").permitAll()
                         .requestMatchers("/messages", "/messages/*", "/profile", "/profile/*", "/avatar")
-                        .hasAuthority(USER.getAuthority())
+                        .hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/users", "/users/*").hasAnyAuthority(ADMIN.getAuthority())
                         .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
                         .anyRequest().authenticated())

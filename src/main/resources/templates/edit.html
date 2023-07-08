@@ -24,7 +24,7 @@
     <input type="email" th:value="${user.email}" name="email"/>
   <div th:each="role : ${roles}">
       <div th:each="userRole : ${user.getRoles()}">
-        <label><input type="checkbox" th:name="${role}" th:text="${role}"/>
+        <label><input type="radio" th:name="${role}" th:text="${role}"/>
             <p th:if="userRole==${role}" th:text="checked"></p>
         </label>
       </div>

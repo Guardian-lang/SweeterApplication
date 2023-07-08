@@ -1,6 +1,5 @@
 package by.ahmed.sweeterapp.http.controller;
 
-import by.ahmed.sweeterapp.entity.Role;
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.service.UserService;
 import by.ahmed.sweeterapp.validator.ValidationException;
@@ -11,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,12 +45,6 @@ public class LoginController {
     private String onLoginSuccess(Model model,
                                   User user) {
         model.addAttribute("user", user);
-        List<Role> roles = user.getRoles().stream().toList();
-        for (Role role : roles) {
-            if (role.equals(Role.ADMIN)) {
-                return "redirect:/users";
-            }
-        }
-        return "redirect:/main";
+        return "redirect:/profile";
     }
 }

@@ -13,7 +13,7 @@
         <strong th:text="${message.senderName}">Sender Name</strong>
     </div>
     <form th:action="@{/messages/{id}/send(id=${receiver.id})}" method="post">
-        <input type="text" name="text"/>
+        <input type="textarea" name="text"/>
         <button type="submit">Отправить</button>
     </form>
 </div>

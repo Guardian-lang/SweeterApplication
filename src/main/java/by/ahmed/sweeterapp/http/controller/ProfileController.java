@@ -7,7 +7,6 @@ import by.ahmed.sweeterapp.mapper.ProfileMapper;
 import by.ahmed.sweeterapp.repository.UserRepository;
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,18 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/profile")
 @RequiredArgsConstructor
 public class ProfileController {
 
-//    @Value("${app.image.bucket}")
-//    private String bucket;
     private final UserRepository userRepository;
     private final UserService userService;
     private final ProfileMapper profileMapper;
@@ -51,13 +44,13 @@ public class ProfileController {
 
     @PostMapping("/edit")
     public String userEdit(@AuthenticationPrincipal UserDetails userDetails,
-                           @RequestParam Map<String, String> form,
                            @RequestParam String email,
                            @RequestParam String username,
                            @RequestParam String firstname,
                            @RequestParam String lastname,
                            @RequestParam LocalDate birth_date,
                            @RequestParam Gender gender,
+                           @RequestParam Role role,
                            @RequestParam MultipartFile avatar,
                            Model model) {
         model.addAttribute("genders", Gender.values());
@@ -68,23 +61,13 @@ public class ProfileController {
         user.setLastname(lastname);
         user.setBirth_date(birth_date);
         user.setGender(gender);
+        user.setRole(role);
         user.setEmail(email);
 
         userService.uploadImage(avatar);
         user.setAvatar(avatar.getOriginalFilename());
         userRepository.saveAndFlush(user);
 
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if(roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
         userRepository.saveAndFlush(user);
 
         return "redirect:/profile";
