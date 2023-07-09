@@ -1,6 +1,7 @@
 package by.ahmed.sweeterapp.dto;
 
 import by.ahmed.sweeterapp.entity.Gender;
+import by.ahmed.sweeterapp.entity.Role;
 import lombok.Value;
 
 import java.time.LocalDate;
@@ -13,4 +14,5 @@ public class ProfileDto {
     String lastname;
     LocalDate birth_date;
     Gender gender;
+    Role role;
 }

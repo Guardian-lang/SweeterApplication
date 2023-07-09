@@ -3,6 +3,8 @@ package by.ahmed.sweeterapp.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "Users")
 @Table(name = "users")
 public class User implements UserDetails {
     @Id

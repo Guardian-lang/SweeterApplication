@@ -19,6 +19,19 @@ public class AdminController {
         return "users";
     }
 
+    @PostMapping("/find")
+    public String findUser(@RequestParam("username") String username,
+                           Model model) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            model.addAttribute("user", userRepository.findByUsername(username).orElseThrow());
+        }
+        else {
+            model.addAttribute("error", "Cannot find user");
+            return "users";
+        }
+        return "find";
+    }
+
     @PostMapping("/{userId}/delete")
     public String deleteUser(@PathVariable("userId") Long id) {
         userRepository.deleteById(id);

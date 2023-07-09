@@ -24,7 +24,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/messages", "/messages/*", "/profile", "/profile/*", "/avatar")
                         .hasAnyAuthority(USER.getAuthority(), ADMIN.getAuthority())
                         .requestMatchers("/users", "/users/*").hasAnyAuthority(ADMIN.getAuthority())
-                        .requestMatchers("/admin/**").hasRole(ADMIN.getAuthority())
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(login -> login
