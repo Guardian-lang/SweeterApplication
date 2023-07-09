@@ -30,13 +30,15 @@ public class MessageController {
         User user = userRepository.findByUsername(userDetails.getUsername()).get();
         model.addAttribute("userId", user.getId());
         model.addAttribute("users", userRepository.findAll());
-        List<Message> messages;
+        List<Message> gotmessages;
+        List<Message> sentmessages = messageRepository.findAllBySenderUsername(userDetails.getUsername());
         if (filter != null && !filter.isEmpty()) {
-            messages = messageRepository.findAllByReceiverUsernameAndSenderUsername(userDetails.getUsername(), filter);
+            gotmessages = messageRepository.findAllByReceiverUsernameAndSenderUsername(userDetails.getUsername(), filter);
         } else {
-            messages = messageRepository.findAllByReceiverUsername(userDetails.getUsername());
+            gotmessages = messageRepository.findAllByReceiverUsername(userDetails.getUsername());
         }
-        model.addAttribute("messages", messages);
+        model.addAttribute("gotmessages", gotmessages);
+        model.addAttribute("sentmessages", sentmessages);
         return "messages";
     }
 
@@ -64,9 +66,25 @@ public class MessageController {
         return "send";
     }
 
-//    @PostMapping("/{id}/delete")
-//    public String deleteMessage(@PathVariable("id") Integer id) {
-//        messageRepository.deleteById(id);
-//        return "redirect:/messages";
-//    }
+    @GetMapping("/{id}/update")
+    public String editMessageForm(@PathVariable Integer id,
+            Model model) {
+        model.addAttribute("oldMessage", messageRepository.findById(id).get());
+        return "update";
+    }
+
+    @PostMapping("/{id}/update")
+    public String editMessage(@PathVariable("id") Integer id,
+                              @RequestParam String text) {
+        var message = messageRepository.findById(id).get();
+        message.setText(text);
+        messageRepository.saveAndFlush(message);
+        return "redirect:/messages";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteMessage(@PathVariable("id") Integer id) {
+        messageRepository.deleteById(id);
+        return "redirect:/messages";
+    }
 }

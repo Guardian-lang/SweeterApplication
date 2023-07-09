@@ -10,26 +10,28 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
 <form th:action="@{/messages}" method="get">
-    <input type="text" name="filter" th:value="${filter}"/>
+    <input type="text" name="filter"/>
     <button type="submit">Найти</button>
 </form>
-<h3>Список сообщений:</h3>
-<div th:each="message : ${messages}">
+<h3>Полученные сообщения:</h3>
+<div th:each="message : ${gotmessages}">
     <span th:text="${message.text}">Text</span>
     <p th:text="${message.date}">Date</p>
     <strong th:text="${message.senderName}">Sender Name</strong>
-<!--    <form th:action="@{/main/{id}/delete(id=${message.id})}" method="post">-->
-<!--        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>-->
-<!--        <button type="submit">Удалить</button>-->
-<!--    </form>-->
 </div>
-<!--<form th:action="@{/logout}" method="post">-->
-<!--    <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>-->
-<!--    <input type="submit" value="Выйти"/>-->
-<!--</form>-->
-    <p> </p>
-    <p> </p>
-    <p> </p>
+    <h3>Отправленные сообщения:</h3>
+    <div th:each="message : ${sentmessages}">
+        <span th:text="${message.text}">Text</span>
+        <p th:text="${message.date}">Date</p>
+        <strong th:text="${message.senderName}">Sender Name</strong>
+        <form th:action="@{/messages/{id}/update(id=${message.id})}" method="get">
+            <button type="submit">Редактировать</button>
+        </form>
+            <form th:action="@{/messages/{id}/delete(id=${message.id})}" method="post">
+                <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
+                <button type="submit">Удалить</button>
+            </form>
+    </div>
     <h3>Написать</h3>
     <div th:each="user : ${users}">
         <a th:href="@{/messages/{id}/send(id=${user.id})}" th:if="${user.id != userId}" th:text="${user.username}"/>

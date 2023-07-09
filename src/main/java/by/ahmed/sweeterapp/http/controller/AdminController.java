@@ -7,18 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/users")
+    @GetMapping
     public String userList(Model model) {
         model.addAttribute("userList", userRepository.findAll());
         return "users";
     }
 
-    @PostMapping("/users/{userId}/delete")
+    @PostMapping("/{userId}/delete")
     public String deleteUser(@PathVariable("userId") Long id) {
         userRepository.deleteById(id);
         return "redirect:/users";
