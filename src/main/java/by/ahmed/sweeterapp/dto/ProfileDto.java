@@ -2,11 +2,13 @@ package by.ahmed.sweeterapp.dto;
 
 import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Value
+@Getter
+@Setter
 public class ProfileDto {
     String username;
     String avatar;

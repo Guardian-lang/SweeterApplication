@@ -28,8 +28,4 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receiver_id")
     private User receiver;
-
-    public String getSenderName() {
-        return sender != null ? sender.getUsername() : "<none>";
-    }
 }

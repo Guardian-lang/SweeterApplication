@@ -4,9 +4,12 @@ import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
 import by.ahmed.sweeterapp.validator.annotation.Password;
 import jakarta.validation.constraints.Email;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Value;
 
-@Value
+@Getter
+@Setter
 public class RegistrationDto {
     String username;
     String firstname;

@@ -2,8 +2,8 @@ package by.ahmed.sweeterapp.http.controller;
 
 import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
-import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.mapper.ProfileMapper;
+import by.ahmed.sweeterapp.mapper.UserMapper;
 import by.ahmed.sweeterapp.repository.UserRepository;
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,13 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class ProfileController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
     private final ProfileMapper profileMapper;
 
     @GetMapping
     public String profilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-        model.addAttribute("profile", profileMapper.toDto(user));
+        var userDto = userService.findByUsername(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("profile", profileMapper.toProfileDto(userDto));
         return "profile";
     }
 
@@ -36,7 +35,7 @@ public class ProfileController {
     public String userEditForm(@AuthenticationPrincipal UserDetails userDetails,
                                Model model) {
         model.addAttribute("genders", Gender.values());
-        model.addAttribute("user", userRepository
+        model.addAttribute("user", userService
                 .findByUsername(userDetails.getUsername()).orElseThrow());
         model.addAttribute("roles", Role.values());
         return "edit";
@@ -54,21 +53,19 @@ public class ProfileController {
                            @RequestParam MultipartFile avatar,
                            Model model) {
         model.addAttribute("genders", Gender.values());
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-        model.addAttribute("user", user);
-        user.setUsername(username);
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setBirth_date(birth_date);
-        user.setGender(gender);
-        user.setRole(role);
-        user.setEmail(email);
+        var userDto = userService.findByUsername(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("user", userDto);
+        userDto.setUsername(username);
+        userDto.setFirstname(firstname);
+        userDto.setLastname(lastname);
+        userDto.setBirth_date(birth_date);
+        userDto.setGender(gender);
+        userDto.setRole(role);
+        userDto.setEmail(email);
 
         userService.uploadImage(avatar);
-        user.setAvatar(avatar.getOriginalFilename());
-        userRepository.saveAndFlush(user);
-
-        userRepository.saveAndFlush(user);
+        userDto.setAvatar(avatar.getOriginalFilename());
+        userService.update(userDto.getId(), userDto);
 
         return "redirect:/profile";
     }

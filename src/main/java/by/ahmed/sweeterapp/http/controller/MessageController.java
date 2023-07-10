@@ -1,10 +1,9 @@
 package by.ahmed.sweeterapp.http.controller;
 
-import by.ahmed.sweeterapp.entity.Message;
-import by.ahmed.sweeterapp.entity.User;
+import by.ahmed.sweeterapp.dto.MessageDto;
 import by.ahmed.sweeterapp.repository.MessageRepository;
-import by.ahmed.sweeterapp.repository.UserRepository;
 import by.ahmed.sweeterapp.service.MessageService;
+import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,23 +21,22 @@ import java.util.List;
 @SessionAttributes({"receiver"})
 public class MessageController {
 
-    private final MessageRepository messageRepository;
     private final MessageService messageService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping
     public String main(@AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false,
             name = "filter", defaultValue = "") String filter, Model model) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).get();
+        var user = userService.findByUsername(userDetails.getUsername()).get();
         model.addAttribute("userId", user.getId());
-        model.addAttribute("users", userRepository.findAll());
-        List<Message> gotmessages;
-        List<Message> sentmessages = messageRepository.findAllBySenderUsername(userDetails.getUsername());
+        model.addAttribute("users", userService.findAll());
+        List<MessageDto> gotmessages;
+        List<MessageDto> sentmessages = messageService.findAllBySenderUsername(userDetails.getUsername());
         if (filter != null && !filter.isEmpty()) {
-            gotmessages = messageRepository.findAllByReceiverUsernameAndSenderUsername(userDetails.getUsername(), filter);
+            gotmessages = messageService.findAllBySenderUsernameAndReceiverUsername(userDetails.getUsername(), filter);
         } else {
-            gotmessages = messageRepository.findAllByReceiverUsername(userDetails.getUsername());
+            gotmessages = messageService.findAllByReceiverUsername(userDetails.getUsername());
         }
         model.addAttribute("gotmessages", gotmessages);
         model.addAttribute("sentmessages", sentmessages);
@@ -49,10 +47,10 @@ public class MessageController {
     public String sendMessageForm(@AuthenticationPrincipal UserDetails userDetails,
                                   @PathVariable("id") Long id,
                                   Model model) {
-        User receiver = userRepository.findById(id).orElseThrow();
+        var receiver = userService.findById(id).orElseThrow();
         model.addAttribute("receiver", receiver);
-        model.addAttribute("messages", messageRepository
-                .findAllByReceiverUsernameAndSenderUsername(receiver.getUsername(), userDetails.getUsername()));
+        model.addAttribute("messages", messageService
+                .findAllBySenderUsernameAndReceiverUsername(receiver.getUsername(), userDetails.getUsername()));
         return "send";
     }
 
@@ -62,14 +60,14 @@ public class MessageController {
                               @RequestParam("text") String text,
                               @RequestParam("image") MultipartFile image,
                               Model model) {
-        var answer = new Message();
+        var answer = new MessageDto();
         messageService.uploadImage(image);
         answer.setText(text);
         answer.setDate(LocalDate.now());
         answer.setImage(image.getOriginalFilename());
-        answer.setSender(userRepository.findByUsername(userDetails.getUsername()).get());
-        answer.setReceiver(userRepository.findById(id).orElseThrow());
-        messageRepository.save(answer);
+        answer.setSender(userService.findByUsername(userDetails.getUsername()).get());
+        answer.setReceiver(userService.findById(id).orElseThrow());
+        messageService.create(answer);
         model.addAttribute("answer", answer);
         return "send";
     }
@@ -77,7 +75,7 @@ public class MessageController {
     @GetMapping("/{id}/update")
     public String editMessageForm(@PathVariable Integer id,
             Model model) {
-        model.addAttribute("oldMessage", messageRepository.findById(id).get());
+        model.addAttribute("oldMessage", messageService.findById(id).get());
         return "update";
     }
 
@@ -85,17 +83,18 @@ public class MessageController {
     public String editMessage(@PathVariable("id") Integer id,
                               @RequestParam("text") String text,
                               @RequestParam("image") MultipartFile image) {
-        var message = messageRepository.findById(id).get();
+        var message = messageService.findById(id).get();
+        message.setId(id);
         message.setText(text);
         messageService.uploadImage(image);
         message.setImage(image.getOriginalFilename());
-        messageRepository.saveAndFlush(message);
+        messageService.update(id, message);
         return "redirect:/messages";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteMessage(@PathVariable("id") Integer id) {
-        messageRepository.deleteById(id);
+        messageService.delete(id);
         return "redirect:/messages";
     }
 }

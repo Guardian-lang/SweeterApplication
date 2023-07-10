@@ -36,9 +36,6 @@
     </div>
     <h3>Написать</h3>
     <div th:each="user : ${users}">
-        <div th:if="${user.avatar}">
-            <img th:src="@{avatar/{id}/avatar(id=${user.id})}" class="rounded-circle mb-3" style="width: 50px;" alt="Avatar" />
-        </div>
         <a th:href="@{/messages/{id}/send(id=${user.id})}" th:if="${user.id != userId}" th:text="${user.username}"/>
     </div>
 <div th:insert="fragments :: script"></div>

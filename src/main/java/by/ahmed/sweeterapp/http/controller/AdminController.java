@@ -1,6 +1,6 @@
 package by.ahmed.sweeterapp.http.controller;
 
-import by.ahmed.sweeterapp.repository.UserRepository;
+import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("userList", userRepository.findAll());
+        model.addAttribute("userList", userService.findAll());
         return "users";
     }
 
     @PostMapping("/find")
     public String findUser(@RequestParam("username") String username,
                            Model model) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            model.addAttribute("user", userRepository.findByUsername(username).orElseThrow());
+        if (userService.findByUsername(username).isPresent()) {
+            model.addAttribute("user", userService.findByUsername(username).orElseThrow());
         }
         else {
             model.addAttribute("error", "Cannot find user");
@@ -34,7 +34,7 @@ public class AdminController {
 
     @PostMapping("/{userId}/delete")
     public String deleteUser(@PathVariable("userId") Long id) {
-        userRepository.deleteById(id);
+        userService.delete(id);
         return "redirect:/users";
     }
 }

@@ -1,6 +1,6 @@
 package by.ahmed.sweeterapp.http.controller;
 
-import by.ahmed.sweeterapp.entity.User;
+import by.ahmed.sweeterapp.dto.UserDto;
 import by.ahmed.sweeterapp.service.UserService;
 import by.ahmed.sweeterapp.validator.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class LoginController {
 
     @SneakyThrows
     private String onLoginSuccess(Model model,
-                                  User user) {
+                                  UserDto user) {
         log.info("User is signed in: {}", user);
         model.addAttribute("user", user);
         return "redirect:/profile";

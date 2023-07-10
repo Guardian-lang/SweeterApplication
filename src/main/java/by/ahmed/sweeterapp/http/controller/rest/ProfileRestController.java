@@ -23,7 +23,7 @@ import static org.springframework.http.ResponseEntity.notFound;
 @RequiredArgsConstructor
 public class ProfileRestController {
 
-    private static final String PATH = "C:\\Users\\Ahmed\\IdeaProjects\\sweeter-app\\src\\main\\resources\\images\\default.jpg";
+    private static final String PATH = "default.jpg";
     private final UserRepository userRepository;
     private final UserService userService;
     private final ImageService imageService;

@@ -1,15 +1,21 @@
 package by.ahmed.sweeterapp.dto;
 
-import by.ahmed.sweeterapp.entity.User;
-import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Value
-@NotNull
+@Getter
+@Setter
 public class MessageDto {
+    Integer id;
     String text;
-    User author;
+    String image;
+    UserDto sender;
+    UserDto receiver;
     LocalDate date;
+
+    public String getSenderName() {
+        return sender != null ? sender.getUsername() : "<none>";
+    }
 }

@@ -1,13 +1,13 @@
 package by.ahmed.sweeterapp.util;
 
-import by.ahmed.sweeterapp.entity.User;
+import by.ahmed.sweeterapp.dto.RegistrationDto;
 import lombok.experimental.UtilityClass;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @UtilityClass
 public class ModelHelper {
 
-    public static void redirectAttributes(RedirectAttributes redirectAttributes, User user) {
+    public static void redirectAttributes(RedirectAttributes redirectAttributes, RegistrationDto user) {
         if (user.getUsername() != null) redirectAttributes.addFlashAttribute("username",
                 user.getUsername());
         if (user.getFirstname() != null) redirectAttributes.addFlashAttribute("firstname",
