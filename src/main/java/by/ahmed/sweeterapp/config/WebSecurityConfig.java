@@ -1,5 +1,7 @@
 package by.ahmed.sweeterapp.config;
 
+import by.ahmed.sweeterapp.http.controller.hadler.ControllerExceptionHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,6 +17,9 @@ import static by.ahmed.sweeterapp.entity.Role.USER;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+
+    @Autowired
+    private ControllerExceptionHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,7 +38,8 @@ public class WebSecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
-                        .deleteCookies("JSESSIONID"));
+                        .deleteCookies("JSESSIONID"))
+                .exceptionHandling(config -> config.accessDeniedHandler(accessDeniedHandler));
         return http.build();
     }
 

@@ -14,8 +14,11 @@
         <p th:text="${message.date}">Date</p>
         <strong th:text="${message.senderName}">Sender Name</strong>
     </div>
-    <form th:action="@{/messages/{id}/send(id=${receiver.id})}" method="post">
+    <form th:action="@{/messages/{id}/send(id=${receiver.id})}" enctype="multipart/form-data" method="post">
         <input type="textarea" name="text"/>
+        <label for="image">Image:
+            <input id="image" type="file" name="image">
+        </label><br>
         <button type="submit">Отправить</button>
     </form>
 </div>

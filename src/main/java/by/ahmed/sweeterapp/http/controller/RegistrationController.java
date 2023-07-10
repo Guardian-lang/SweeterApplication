@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.*;
+import java.util.Objects;
+
+import static by.ahmed.sweeterapp.util.ModelHelper.redirectAttributes;
 
 @Controller
 @RequestMapping("/registration")
@@ -24,12 +27,13 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addUser(User user, Model model) {
+    public String addUser(User user, Model model, RedirectAttributes redirectAttributes) {
         var userFromDb = userRepository.findByUsername(user.getUsername());
         model.addAttribute("genders", Gender.values());
         if (userFromDb.isPresent()) {
             model.addAttribute("error", "User exists!");
-            return "registration";
+            redirectAttributes(redirectAttributes, user);
+            return "redirect:/registration";
         }
 
         user.setActive(true);

@@ -4,12 +4,14 @@ import by.ahmed.sweeterapp.entity.Message;
 import by.ahmed.sweeterapp.entity.User;
 import by.ahmed.sweeterapp.repository.MessageRepository;
 import by.ahmed.sweeterapp.repository.UserRepository;
+import by.ahmed.sweeterapp.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MessageController {
 
     private final MessageRepository messageRepository;
+    private final MessageService messageService;
     private final UserRepository userRepository;
 
     @GetMapping
@@ -57,10 +60,15 @@ public class MessageController {
     public String sendMessage(@AuthenticationPrincipal UserDetails userDetails,
                               @PathVariable("id") Long id,
                               @RequestParam("text") String text,
+                              @RequestParam("image") MultipartFile image,
                               Model model) {
-        var answer = new Message(text, LocalDate.now(), userRepository
-                .findByUsername(userDetails.getUsername()).get(), userRepository
-                .findById(id).orElseThrow());
+        var answer = new Message();
+        messageService.uploadImage(image);
+        answer.setText(text);
+        answer.setDate(LocalDate.now());
+        answer.setImage(image.getOriginalFilename());
+        answer.setSender(userRepository.findByUsername(userDetails.getUsername()).get());
+        answer.setReceiver(userRepository.findById(id).orElseThrow());
         messageRepository.save(answer);
         model.addAttribute("answer", answer);
         return "send";
@@ -75,9 +83,12 @@ public class MessageController {
 
     @PostMapping("/{id}/update")
     public String editMessage(@PathVariable("id") Integer id,
-                              @RequestParam String text) {
+                              @RequestParam("text") String text,
+                              @RequestParam("image") MultipartFile image) {
         var message = messageRepository.findById(id).get();
         message.setText(text);
+        messageService.uploadImage(image);
+        message.setImage(image.getOriginalFilename());
         messageRepository.saveAndFlush(message);
         return "redirect:/messages";
     }
