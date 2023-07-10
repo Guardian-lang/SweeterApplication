@@ -15,11 +15,11 @@
         <img th:src="@{/avatar/default}" class="rounded-circle mb-3" style="width: 350px;" alt="Avatar" />
     </div>
     <form th:action="@{/profile}" method="get">
-        <strong th:text="${profile.username}">Username</strong>
-        <h2 th:text="${profile.firstname}">First Name</h2>
-        <h2 th:text="${profile.lastname}">Last Name</h2>
-        <p th:text="${profile.birth_date}">Birth Date</p>
-        <i th:text="${profile.gender}">Gender</i>
+        <strong th:text="${profile.username}">Никнейм</strong>
+        <h2 th:text="${profile.firstname}">Имя</h2>
+        <h2 th:text="${profile.lastname}">Фамилия</h2>
+        <p th:text="${profile.birth_date}">Дата рождения</p>
+        <i th:text="${profile.gender}">Пол</i>
     </form>
     <a th:href="@{/profile/edit}">Изменить</a>
     <a th:if="${profile.role.name() == 'ADMIN'}"  th:href="@{/users}">Список пользователей</a>

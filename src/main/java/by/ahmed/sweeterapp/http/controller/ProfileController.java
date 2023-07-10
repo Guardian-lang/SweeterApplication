@@ -3,8 +3,6 @@ package by.ahmed.sweeterapp.http.controller;
 import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
 import by.ahmed.sweeterapp.mapper.ProfileMapper;
-import by.ahmed.sweeterapp.mapper.UserMapper;
-import by.ahmed.sweeterapp.repository.UserRepository;
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

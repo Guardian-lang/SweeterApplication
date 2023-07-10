@@ -34,7 +34,7 @@ public class RegistrationController {
         var userFromDb = userService.findByUsername(user.getUsername());
         model.addAttribute("genders", Gender.values());
         if (userFromDb.isPresent()) {
-            model.addAttribute("error", "User exists!");
+            model.addAttribute("error", "Такой пользователь уже существует!");
             redirectAttributes(redirectAttributes, user);
             return "redirect:/registration";
         }

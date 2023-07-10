@@ -14,8 +14,4 @@ public class MessageDto {
     UserDto sender;
     UserDto receiver;
     LocalDate date;
-
-    public String getSenderName() {
-        return sender != null ? sender.getUsername() : "<none>";
-    }
 }

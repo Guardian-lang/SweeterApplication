@@ -14,18 +14,18 @@
 </form>
 <h3>Полученные сообщения:</h3>
 <div th:each="message : ${gotmessages}">
-    <span th:text="${message.text}">Text</span>
-    <p th:text="${message.date}">Date</p>
-    <strong th:text="${message.senderName}">Sender Name</strong>
+    <span th:text="${message.text}">Текст</span>
+    <p th:text="${message.date}">Дата отправки</p>
+    <strong th:text="${message.sender.username}">Имя отправителя</strong>
 </div>
     <h3>Отправленные сообщения:</h3>
     <div th:each="message : ${sentmessages}">
-        <span th:text="${message.text}">Text</span>
+        <span th:text="${message.text}">Текст</span>
 <!--        <div th:if="${message.text == null && message.getImage() != null}">-->
 <!--        <span th:text="${message.getImage()}"></span>-->
 <!--        </div>-->
-        <p th:text="${message.date}">Date</p>
-        <strong th:text="${message.senderName}">Sender Name</strong>
+        <p th:text="${message.date}">Дата отправки</p>
+        <strong th:text="${message.receiver.username}">Имя получателя</strong>
         <form th:action="@{/messages/{id}/update(id=${message.id})}" method="get">
             <button type="submit">Редактировать</button>
         </form>

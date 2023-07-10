@@ -10,24 +10,24 @@
 <div th:insert="fragments :: header"></div>
 <div class="container mt-5">
 <form th:action="@{/registration}" method="post">
-  <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> First Name : <input type="text" name="firstname"/> </label></div>
-    <div><label> Last Name : <input type="text" name="lastname"/> </label></div>
-    <div><label> Birth Date : <input type="date" name="birth_date"/> </label></div>
+  <div><label> Никнейм : <input type="text" name="username"/> </label></div>
+    <div><label> Имя : <input type="text" name="firstname"/> </label></div>
+    <div><label> Фамилия : <input type="text" name="lastname"/> </label></div>
+    <div><label> Дата рождения : <input type="date" name="birth_date"/> </label></div>
     <div th:each="gender : ${genders}">
         <input th:id="${gender}" type="radio" name="gender" th:value="${gender}" th:checked="${gender == user.gender}">
         <label th:for="${gender}" th:text="${gender}">Gender</label>
     </div>
     <div>
-    <label for="avatar">Avatar:
+    <label for="avatar">Аватарка:
         <input id="avatar" type="file" name="avatar">
     </label><br>
     </div>
   <div><label> Email : <input type="email" name="email"/> </label></div>
-  <div><label> Password: <input type="password" name="password"/> </label></div>
+  <div><label> Пароль: <input type="password" name="password"/> </label></div>
   <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
     <div style="color: red" th:text="${error}"></div>
-  <div><input type="submit" value="Sign Up"/></div>
+  <div><input type="submit" value="Регистрация"/></div>
 </form>
 <div th:insert="fragments :: script"></div>
 </div>

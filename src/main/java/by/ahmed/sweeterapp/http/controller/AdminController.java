@@ -2,6 +2,8 @@ package by.ahmed.sweeterapp.http.controller;
 
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +22,16 @@ public class AdminController {
     }
 
     @PostMapping("/find")
-    public String findUser(@RequestParam("username") String username,
+    public String findUser(@AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam("username") String username,
                            Model model) {
+        var admin = userService.findByUsername(userDetails.getUsername()).get();
+        model.addAttribute("adminId", admin.getId());
         if (userService.findByUsername(username).isPresent()) {
             model.addAttribute("user", userService.findByUsername(username).orElseThrow());
         }
         else {
-            model.addAttribute("error", "Cannot find user");
+            model.addAttribute("error", "Пользователь не найден");
             return "users";
         }
         return "find";
