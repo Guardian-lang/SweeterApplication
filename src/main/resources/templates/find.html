@@ -12,7 +12,7 @@
     <form th:action="@{/users/find}" method="post">
         <input type="text" name="username"/>
         <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-        <button type="submit">Найти</button>
+        <button type="submit" th:text="#{messages.find}"></button>
     <table>
         <thead>
         <tr>

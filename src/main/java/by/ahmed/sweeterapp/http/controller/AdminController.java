@@ -31,7 +31,7 @@ public class AdminController {
             model.addAttribute("user", userService.findByUsername(username).orElseThrow());
         }
         else {
-            model.addAttribute("error", "Пользователь не найден");
+            model.addAttribute("error", "User not found");
             return "users";
         }
         return "find";
