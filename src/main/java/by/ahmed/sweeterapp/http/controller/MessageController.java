@@ -1,7 +1,6 @@
 package by.ahmed.sweeterapp.http.controller;
 
 import by.ahmed.sweeterapp.dto.MessageDto;
-import by.ahmed.sweeterapp.repository.MessageRepository;
 import by.ahmed.sweeterapp.service.MessageService;
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;

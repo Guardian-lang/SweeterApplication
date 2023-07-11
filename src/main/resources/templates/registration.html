@@ -15,7 +15,7 @@
     <div><label><span th:text="#{lastname}"></span><input type="text" name="lastname"/> </label></div>
     <div><label><span th:text="#{birth_date}"></span><input type="date" name="birth_date"/> </label></div>
     <div th:each="gender : ${genders}">
-        <input th:id="${gender}" type="radio" name="gender" th:value="${gender}" th:checked="${gender == user.gender}">
+        <input th:id="${gender}" type="radio" name="gender" th:value="${gender}">
         <label th:for="${gender}" th:text="${gender}"><span th:text="#{gender}"></span></label>
     </div>
     <div>
@@ -26,8 +26,8 @@
   <div><label><span th:text="#{email}"></span><input type="email" name="email"/> </label></div>
   <div><label><span th:text="#{password}"></span><input type="password" name="password"/> </label></div>
   <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-    <div style="color: red" th:text="${error}"></div>
     <div><button type="submit" th:text="#{registration.submit}"></button></div>
+    <div style="color: red" th:text="${error}"></div>
 </form>
 <div th:insert="fragments :: script"></div>
 </div>
