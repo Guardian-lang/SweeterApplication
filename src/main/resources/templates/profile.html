@@ -9,20 +9,20 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
     <div th:if="${profile.avatar}">
-        <img th:src="@{/avatar}" class="rounded-circle mb-3" style="width: 350px;" alt="Avatar" />
+        <img th:src="@{/avatar}" class="rounded-circle mb-3" style="width: 350px;" th:alt="#{avatar}" />
     </div>
     <div th:if="${profile.avatar == null}">
-        <img th:src="@{/avatar/default}" class="rounded-circle mb-3" style="width: 350px;" alt="Avatar" />
+        <img th:src="@{/avatar/default}" class="rounded-circle mb-3" style="width: 350px;" th:alt="#{avatar}" />
     </div>
     <form th:action="@{/profile}" method="get">
-        <strong th:text="${profile.username}">Никнейм</strong>
-        <h2 th:text="${profile.firstname}">Имя</h2>
-        <h2 th:text="${profile.lastname}">Фамилия</h2>
-        <p th:text="${profile.birth_date}">Дата рождения</p>
-        <i th:text="${profile.gender}">Пол</i>
+        <strong th:text="${profile.username}"><span th:text="#{username}"></span></strong>
+        <h2 th:text="${profile.firstname}"><span th:text="#{firstname}"></span></h2>
+        <h2 th:text="${profile.lastname}"><span th:text="#{lastname}"></span></h2>
+        <p th:text="${profile.birth_date}"><span th:text="#{birth_date}"></span></p>
+        <i th:text="${profile.gender}"><span th:text="#{gender}"></span></i>
     </form>
-    <a th:href="@{/profile/edit}">Изменить</a>
-    <a th:if="${profile.role.name() == 'ADMIN'}"  th:href="@{/users}">Список пользователей</a>
+    <a th:href="@{/profile/edit}" th:text="#{profile.edit}"></a>
+    <a th:if="${profile.role.name() == 'ADMIN'}" th:href="@{/users}" th:text="#{users}"></a>
 </div>
 </body>
 </html>

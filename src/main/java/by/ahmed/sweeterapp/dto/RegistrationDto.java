@@ -4,17 +4,20 @@ import by.ahmed.sweeterapp.entity.Gender;
 import by.ahmed.sweeterapp.entity.Role;
 import by.ahmed.sweeterapp.validator.annotation.Password;
 import jakarta.validation.constraints.Email;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Value;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegistrationDto {
     String username;
     String firstname;
     String lastname;
-    String birth_date;
+    LocalDate birth_date;
     Gender gender;
     Role role;
     boolean active;

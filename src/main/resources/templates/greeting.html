@@ -10,9 +10,9 @@
 <body>
 <div th:insert="fragments :: header"></div>
 <div class="container mt-5">
-<p>Привет, пользователь!</p>
-<a th:href="@{/login}">Войти</a>
-<a th:href="@{/registration}">Зарегистрироваться</a>
+<p th:text="#{greeting}"></p>
+<a th:href="@{/login}" th:text="#{greeting.login}"></a>
+<a th:href="@{/registration}" th:text="#{greeting.registration}"></a>
 <div th:insert="fragments :: script"></div>
 </div>
 </body>

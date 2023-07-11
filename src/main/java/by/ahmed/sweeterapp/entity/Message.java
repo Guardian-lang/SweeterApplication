@@ -1,9 +1,7 @@
 package by.ahmed.sweeterapp.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -13,6 +11,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "Messages")
 public class Message {
     @Id
@@ -24,7 +24,6 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender_id")
     private User sender;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receiver_id")
     private User receiver;

@@ -16,7 +16,7 @@ import static by.ahmed.sweeterapp.entity.Role.USER;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class SecurityConfiguration {
 
     @Autowired
     private ControllerExceptionHandler accessDeniedHandler;

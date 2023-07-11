@@ -22,12 +22,22 @@
     <div class="collapse navbar-collapse" id="headerSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/login">Вход</a>
+          <a class="nav-link" href="/login" th:text="#{greeting.login}"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/registration">Регистрация</a>
+          <a class="nav-link" href="/registration" th:text="#{greeting.registration}"></a>
         </li>
       </ul>
+    </div>
+
+    <div class="col-md-3 text-end">
+      <form action="">
+        <select name="lang" onchange="this.form.submit()">
+          <option></option>
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+        </select>
+      </form>
     </div>
   </nav>
 </div>
@@ -41,15 +51,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/logout">Выход</a>
+          <a class="nav-link" href="/logout" th:text="#{navbar.logout}"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/messages">Сообщения</a>
+          <a class="nav-link" href="/messages" th:text="#{navbar.messages}"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/profile">Профиль</a>
+          <a class="nav-link" href="/profile" th:text="#{navbar.profile}"></a>
         </li>
       </ul>
+    </div>
+
+    <div class="col-md-3 text-end">
+      <form action="">
+        <select name="lang" onchange="this.form.submit()">
+          <option></option>
+          <option value="en">EN</option>
+          <option value="ru">RU</option>
+        </select>
+        <button type="submit">Change</button>
+      </form>
     </div>
   </nav>
 </div>

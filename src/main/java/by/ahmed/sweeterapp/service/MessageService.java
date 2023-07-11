@@ -1,8 +1,6 @@
 package by.ahmed.sweeterapp.service;
 
 import by.ahmed.sweeterapp.dto.MessageDto;
-import by.ahmed.sweeterapp.dto.RegistrationDto;
-import by.ahmed.sweeterapp.dto.UserDto;
 import by.ahmed.sweeterapp.entity.Message;
 import by.ahmed.sweeterapp.mapper.MessageMapper;
 import by.ahmed.sweeterapp.mapper.MessageUpdateMapper;
@@ -25,12 +23,6 @@ public class MessageService {
     private final ImageService imageService;
     private final MessageMapper messageMapper;
     private final MessageUpdateMapper messageUpdateMapper;
-
-    public List<MessageDto> findAll() {
-        return messageRepository.findAll().stream()
-                .map(messageMapper::toDto)
-                .toList();
-    }
 
     public Optional<MessageDto> findById(Integer id) {
         return messageRepository.findById(id)
