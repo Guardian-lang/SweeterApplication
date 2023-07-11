@@ -10,16 +10,16 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
     <div th:each="message : ${messages}">
-        <span th:text="${message.text}">Текст</span>
-        <p th:text="${message.date}">Дата отпрвки</p>
-        <strong th:text="${message.senderName}">Имя отправителя</strong>
+        <span th:text="${message.text}"><span th:text="#{message.text}"></span></span>
+        <p th:text="${message.date}"><span th:text="#{message.date}"></span></p>
+        <strong th:text="${message.sender.username}"><span th:text="#{message.sender}"></span></strong>
     </div>
     <form th:action="@{/messages/{id}/send(id=${receiver.id})}" enctype="multipart/form-data" method="post">
         <input type="textarea" name="text"/>
-        <label for="image">Картинка:
+        <label for="image"><span th:text="#{image}"></span>
             <input id="image" type="file" name="image">
         </label><br>
-        <button type="submit">Отправить</button>
+        <button type="submit" th:text="#{send}"></button>
     </form>
 </div>
 </body>

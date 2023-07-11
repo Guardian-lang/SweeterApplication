@@ -16,8 +16,8 @@
     <table>
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Role</th>
+            <th><span th:text="#{username}"></span></th>
+            <th><span th:text="#{role}"></span></th>
         </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
             <td>
                 <form th:action="@{/users/{userId}/delete(userId=${user.id})}" method="post">
                     <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
-                    <button type="submit">Удалить</button>
+                    <button type="submit" th:text="#{delete}"></button>
                 </form>
             </td>
         </tr>

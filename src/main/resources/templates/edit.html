@@ -23,11 +23,9 @@
     </label><br>
     <input type="email" th:value="${user.email}" name="email"/>
   <div th:each="role : ${roles}">
-      <div th:each="userRole : ${user.getRoles()}">
-        <label><input type="radio" th:name="${role}" th:text="${role}"/>
-            <p th:if="userRole==${role}" th:text="checked"></p>
-        </label>
-      </div>
+      <label><input type="radio" th:name="${role}" th:text="${role}"/>
+          <p th:if="userRole==${role}" th:text="checked"></p>
+      </label>
   </div>
     <input type="hidden" th:value="${user.id}" name="userID"/>
     <input type="hidden" th:value="${_csrf.token}" name="_csrf"/>

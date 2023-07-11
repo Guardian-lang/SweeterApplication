@@ -15,11 +15,11 @@
         <img th:src="@{/avatar/default}" class="rounded-circle mb-3" style="width: 350px;" th:alt="#{avatar}" />
     </div>
     <form th:action="@{/profile}" method="get">
-        <strong th:text="${profile.username}"><span th:text="#{username}"></span></strong>
-        <h2 th:text="${profile.firstname}"><span th:text="#{firstname}"></span></h2>
-        <h2 th:text="${profile.lastname}"><span th:text="#{lastname}"></span></h2>
-        <p th:text="${profile.birth_date}"><span th:text="#{birth_date}"></span></p>
-        <i th:text="${profile.gender}"><span th:text="#{gender}"></span></i>
+        <strong th:text="${profile.username}"><strong th:text="#{username}"></strong></strong>
+        <h2 th:text="${profile.firstname}"><h2 th:text="#{firstname}"></h2></h2>
+        <h2 th:text="${profile.lastname}"><h2 th:text="#{lastname}"></h2></h2>
+        <p th:text="${profile.birth_date}"><p th:text="#{birth_date}"></p>
+        <i th:text="${profile.gender}"><i th:text="#{gender}"></i></i>
     </form>
     <a th:href="@{/profile/edit}" th:text="#{profile.edit}"></a>
     <a th:if="${profile.role.name() == 'ADMIN'}" th:href="@{/users}" th:text="#{users}"></a>
