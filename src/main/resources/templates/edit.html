@@ -16,20 +16,15 @@
     <input type="date" th:value="${user.birth_date}" name="birth_date"/>
     <div th:each="gender : ${genders}">
         <input th:id="${gender}" type="radio" name="gender" th:value="${gender}" th:checked="${gender == user.gender}">
-        <label th:for="${gender}" th:text="${gender}">Gender</label>
+        <label th:for="${gender}" th:text="${gender}"><span th:text="#{gender}"></span></label>
     </div>
-    <label for="avatar">Avatar:
+    <label for="avatar"><span th:text="#{avatar}"></span>
         <input id="avatar" type="file" name="avatar">
     </label><br>
     <input type="email" th:value="${user.email}" name="email"/>
-  <div th:each="role : ${roles}">
-      <label><input type="radio" th:name="${role}" th:text="${role}"/>
-          <p th:if="userRole==${role}" th:text="checked"></p>
-      </label>
-  </div>
     <input type="hidden" th:value="${user.id}" name="userID"/>
     <input type="hidden" th:value="${_csrf.token}" name="_csrf"/>
-    <button type="submit">Изменить</button>
+    <button type="submit" th:text="#{update}"></button>
 </form>
 <div th:insert="fragments :: script"></div>
 </div>

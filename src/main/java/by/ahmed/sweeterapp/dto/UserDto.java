@@ -27,5 +27,6 @@ public class UserDto {
     String password;
     boolean active;
     Role role;
-    List<Message> messageList;
+    List<Message> sentMessages;
+    List<Message> receivedMessages;
 }

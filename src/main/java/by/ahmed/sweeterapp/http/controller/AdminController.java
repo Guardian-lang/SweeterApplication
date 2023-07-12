@@ -21,6 +21,11 @@ public class AdminController {
         return "users";
     }
 
+    @GetMapping("/find")
+    public String findUserForm() {
+        return "find";
+    }
+
     @PostMapping("/find")
     public String findUser(@AuthenticationPrincipal UserDetails userDetails,
             @RequestParam("username") String username,

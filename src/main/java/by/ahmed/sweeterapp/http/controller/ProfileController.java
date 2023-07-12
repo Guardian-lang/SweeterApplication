@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/profile")
@@ -35,7 +36,6 @@ public class ProfileController {
         model.addAttribute("genders", Gender.values());
         model.addAttribute("user", userService
                 .findByUsername(userDetails.getUsername()).orElseThrow());
-        model.addAttribute("roles", Role.values());
         return "edit";
     }
 
@@ -47,7 +47,6 @@ public class ProfileController {
                            @RequestParam String lastname,
                            @RequestParam LocalDate birth_date,
                            @RequestParam Gender gender,
-                           @RequestParam Role role,
                            @RequestParam MultipartFile avatar,
                            Model model) {
         model.addAttribute("genders", Gender.values());
@@ -58,11 +57,16 @@ public class ProfileController {
         userDto.setLastname(lastname);
         userDto.setBirth_date(birth_date);
         userDto.setGender(gender);
-        userDto.setRole(role);
         userDto.setEmail(email);
 
-        userService.uploadImage(avatar);
-        userDto.setAvatar(avatar.getOriginalFilename());
+        if (avatar.isEmpty()) {
+            userDto.setAvatar("default.jpg");
+        }
+        else {
+            userService.uploadImage(avatar);
+            userDto.setAvatar(avatar.getOriginalFilename());
+        }
+
         userService.update(userDto.getId(), userDto);
 
         return "redirect:/profile";

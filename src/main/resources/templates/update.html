@@ -10,14 +10,16 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
   <form th:action="@{/messages/{id}/update(id=${oldMessage.id})}" enctype="multipart/form-data" method="post">
-      <div th:if="${oldMessage.image}">
-          <img th:src="@{/{id}/image(id=${oldMessage.id})}" class="rounded-3" style="width: 350px;"
+      <div th:if="${oldMessage.image != null}">
+          <img th:src="@{/{id}/image(id=${oldMessage.id})}" class="rounded-3" style="width: 250px;"
                th:alt="#{image}" />
       </div>
-    <input type="textarea" id="text" name="text" th:text="${oldMessage.text}"/>
+    <input type="textarea" id="text" name="text" th:value="${oldMessage.text}"/>
+      <div>
       <label for="image"><span th:text="#{image}"></span>
           <input id="image" type="file" name="image">
       </label><br>
+      </div>
     <input type="hidden" th:name="_csrf" th:value="${_csrf.token}"/>
     <button type="submit" th:text="#{messages.edit}"></button>
   </form>

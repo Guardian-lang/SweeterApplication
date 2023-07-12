@@ -21,28 +21,29 @@ public class RegistrationController {
     private final UserService userService;
 
     @GetMapping
-    public String registration(Model model) {
+    public String registrationForm(Model model) {
+        model.addAttribute("error", "");
         model.addAttribute("genders", Gender.values());
-        model.addAttribute("error", " ");
         return "registration";
     }
 
     @PostMapping
-    public String addUser(RegistrationDto user, Model model, RedirectAttributes redirectAttributes) {
+    public String registration(RegistrationDto user, Model model, RedirectAttributes redirectAttributes) {
         var userFromDb = userService.findByUsername(user.getUsername());
         if (userFromDb.isPresent()) {
-            model.addAttribute("error", "This user already exists!");
+            redirectAttributes.addFlashAttribute("error", "This user already exists!");
             redirectAttributes(redirectAttributes, user);
             return "redirect:/registration";
         }
-        if (user.getUsername().isEmpty()
-        || user.getFirstname().isEmpty()
-        || user.getLastname().isEmpty()
-        || user.getBirth_date().toString().isEmpty()
-        || user.getGender().toString().isEmpty()
-        || user.getEmail().isEmpty()
-        || user.getPassword().isEmpty()) {
-            model.addAttribute("error", "Some labels are empty. Please, enter a full data!");
+        if (user.getUsername() == null
+        || user.getFirstname() == null
+        || user.getLastname() == null
+        || user.getBirth_date() == null
+        || user.getGender() == null
+        || user.getEmail() == null
+        || user.getPassword() == null) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Some labels are empty. Please, enter a full data!");
             redirectAttributes(redirectAttributes, user);
             return "redirect:/registration";
         }

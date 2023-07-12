@@ -9,7 +9,7 @@
 <div th:insert="fragments :: header"></div>
 <div class="container mt-5">
 <div th:if="${param.error}" style="color: red">
-  Invalid username and password.
+  Invalid username or password.
 </div>
 <div th:if="${param.logout}" style="color: red">
   You have been logged out.
