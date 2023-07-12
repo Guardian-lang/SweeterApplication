@@ -1,5 +1,7 @@
 package by.ahmed.sweeterapp.http.controller;
 
+import by.ahmed.sweeterapp.dto.MessageDto;
+import by.ahmed.sweeterapp.service.MessageService;
 import by.ahmed.sweeterapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final UserService userService;
+    private final MessageService messageService;
 
     @GetMapping
     public String userList(Model model) {
@@ -44,6 +47,15 @@ public class AdminController {
 
     @PostMapping("/{userId}/delete")
     public String deleteUser(@PathVariable("userId") Long id) {
+//        var user = userService.findById(id).get();
+//        var receivedMessages = messageService.findAllByReceiverUsername(user.getUsername());
+//        for (MessageDto message : receivedMessages) {
+//            messageService.delete(message.getId());
+//        }
+//        var sentMessages = messageService.findAllBySenderUsername(user.getUsername());
+//        for (MessageDto message : sentMessages) {
+//            messageService.delete(message.getId());
+//        }
         userService.delete(id);
         return "redirect:/users";
     }

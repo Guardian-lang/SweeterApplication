@@ -10,6 +10,9 @@
 <div th:insert="fragments :: navbar"></div>
 <div class="container mt-5">
     <div th:each="message : ${messages}">
+        <div th:if="${message.image}">
+            <img th:src="@{/{id}/image(id=${message.id})}" style="width: 350px;"/>
+        </div>
         <span th:text="${message.text}"><span th:text="#{message.text}"></span></span>
         <p th:text="${message.date}"><span th:text="#{message.date}"></span></p>
         <strong th:text="${message.sender.username}"><span th:text="#{message.sender}"></span></strong>

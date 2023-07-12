@@ -21,10 +21,10 @@ public class Message {
     private String text;
     private String image;
     private LocalDate date;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "sender_id")
     private User sender;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "receiver_id")
     private User receiver;
 }
