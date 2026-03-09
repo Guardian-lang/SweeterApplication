@@ -1,10 +1,10 @@
-FROM maven:3.8.4-openjdk-17-slim AS build
+FROM maven:3.8.4-openjdk-25 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
 RUN mvn clean package -DskipTests
-FROM openjdk:17-slim
+FROM openjdk:25
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
